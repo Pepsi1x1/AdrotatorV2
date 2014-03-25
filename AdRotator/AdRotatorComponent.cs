@@ -248,6 +248,21 @@ namespace AdRotator
                     reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StartMethod]);
                 }
 
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserGender))
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], adProvider.UserGender.ToString());
+                }
+
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge))
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], adProvider.UserAge.ToString());
+                }
+
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords))
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Keywords], adProvider.Keywords.ToString());
+                }
+
             }
             catch (PlatformNotSupportedException)
             {

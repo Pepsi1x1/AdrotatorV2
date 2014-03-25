@@ -35,6 +35,12 @@ namespace AdRotator.Model
 
         private bool enabledInTrialOnlyFieldSpecified;
 
+        private string userGenderField;
+
+        private string userAgeField;
+
+        private string keywordsField;
+
         [System.Xml.Serialization.XmlIgnore]
         internal Dictionary<AdRotator.AdProviderConfig.SupportedPlatforms, AdRotator.AdProviderConfig.AdProviderDetails> AdProviderConfigValues;
 
@@ -190,6 +196,48 @@ namespace AdRotator.Model
                 this.enabledInTrialOnlyFieldSpecified = value;
             }
         }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string UserGender
+        {
+            get
+            {
+                return this.userGenderField;
+            }
+            set
+            {
+                this.userGenderField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string UserAge
+        {
+            get
+            {
+                return this.userAgeField;
+            }
+            set
+            {
+                this.userAgeField = value;
+            }
+        }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string Keywords
+        {
+            get
+            {
+                return this.keywordsField;
+            }
+            set
+            {
+                this.keywordsField = value;
+            }
+        }
         
         protected void Populate(IAdProvider adProvider)
         {
@@ -199,6 +247,9 @@ namespace AdRotator.Model
             this.Probability = adProvider.Probability;
             this.IsTest = adProvider.IsTest;
             this.AdOrder = adProvider.AdOrder;
+            this.UserGender = adProvider.UserGender;
+            this.UserAge = adProvider.UserAge;
+            this.Keywords = adProvider.Keywords;
         }
 
     }

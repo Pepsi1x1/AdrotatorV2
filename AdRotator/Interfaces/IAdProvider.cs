@@ -53,5 +53,23 @@ namespace AdRotator.Model
         {
             get;
         }
+
+        string UserGender
+        {
+            get;
+            set;
+        }
+
+        string UserAge
+        {
+            get;
+            set;
+        }
+
+        string Keywords
+        {
+            get;
+            set;
+        }
     }
 }
