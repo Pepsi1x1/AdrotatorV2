@@ -54,7 +54,7 @@ namespace AdRotator
         /// <summary>
         /// The ad settings based on which the ad descriptor for the current UI culture can be selected
         /// </summary>
-        private static AdSettings _settings;
+        private AdSettings _settings;
 
         private string culture;
 
@@ -248,17 +248,17 @@ namespace AdRotator
                     reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StartMethod]);
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserGender))
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserGender) && !string.IsNullOrWhiteSpace(adProvider.UserGender))
                 {
                     reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], adProvider.UserGender.ToString());
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge))
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge) && !string.IsNullOrWhiteSpace(adProvider.UserAge))
                 {
                     reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], adProvider.UserAge.ToString());
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords))
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords) && !string.IsNullOrWhiteSpace(adProvider.Keywords))
                 {
                     reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Keywords], adProvider.Keywords.ToString());
                 }
