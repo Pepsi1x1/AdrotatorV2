@@ -30,6 +30,18 @@ namespace AdRotator
         AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
 #endif
 
+        public string UserGender
+        {
+            get { return adRotatorControl.UserGender; }
+            set { adRotatorControl.UserGender = value; }
+        }
+
+        public int? UserAge
+        {
+            get { return adRotatorControl.UserAge; }
+            set { adRotatorControl.UserAge = value; }
+        }
+
         public AdRotatorControl()
         {
             InitializeComponent();

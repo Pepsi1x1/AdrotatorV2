@@ -1,4 +1,5 @@
 ﻿using AdRotator.Model;
+using AdRotator.Networking;
 using AdRotator.Utilities;
 using System;
 using System.Collections.Generic;
@@ -102,6 +103,15 @@ namespace AdRotator
 
         internal static Dictionary<AdType,Type> PlatformAdProviderComponents { get; set; }
 
+        public string UserGender
+        {
+            get; set;
+        }
+
+        public int? UserAge
+        {
+            get; set;
+        }
 
         /// <summary>
         /// RefreshInterval in seconds
@@ -139,7 +149,7 @@ namespace AdRotator
             }
             catch { }
 
-            if (_settings != null && _settings.CultureDescriptors.Count() > 0)
+            if (_settings != null && _settings.CultureDescriptors.Any())
             {
                 //Set Current culture based on Culture Value
                _settings.GetAdDescriptorBasedOnUICulture(culture);
@@ -248,14 +258,17 @@ namespace AdRotator
                     reflectionHelper.TryInvokeMethod(providerType, instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.StartMethod]);
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserGender) && !string.IsNullOrWhiteSpace(adProvider.UserGender))
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserGender) && !string.IsNullOrWhiteSpace(UserGender))
                 {
-                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], adProvider.UserGender.ToString());
+                    if(adProvider.AdProviderType == AdType.Smaato)
+                        reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], UserGender[0].ToString());
+                    else
+                        reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], UserGender.ToString());
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge) && !string.IsNullOrWhiteSpace(adProvider.UserAge))
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge) && UserAge != null)
                 {
-                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], adProvider.UserAge.ToString());
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], UserAge.Value.ToString());
                 }
 
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords) && !string.IsNullOrWhiteSpace(adProvider.Keywords))
@@ -382,9 +395,9 @@ namespace AdRotator
             }
         }
 
-        public async Task LoadSettingsFileRemote(string RemoteSettingsLocation)
+        public async Task LoadSettingsFileRemote(string remoteSettingsLocation)
         {
-            var settings = await Networking.Network.GetStringFromURLAsync(RemoteSettingsLocation);
+            var settings = await Networking.Network.GetStringFromURLAsync(remoteSettingsLocation);
             if (settings != null) _settings = _settings.Deserialise(settings);
         }
 
