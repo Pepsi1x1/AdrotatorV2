@@ -41,6 +41,8 @@ namespace AdRotator.Model
 
         private string keywordsField;
 
+        private Position positionField;
+
         [System.Xml.Serialization.XmlIgnore]
         internal Dictionary<AdRotator.AdProviderConfig.SupportedPlatforms, AdRotator.AdProviderConfig.AdProviderDetails> AdProviderConfigValues;
 
@@ -238,6 +240,20 @@ namespace AdRotator.Model
                 this.keywordsField = value;
             }
         }
+
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public Position Position
+        {
+            get
+            {
+                return this.positionField;
+            }
+            set
+            {
+                this.positionField = value;
+            }
+        }
         
         protected void Populate(IAdProvider adProvider)
         {
@@ -250,6 +266,7 @@ namespace AdRotator.Model
             this.UserGender = adProvider.UserGender;
             this.UserAge = adProvider.UserAge;
             this.Keywords = adProvider.Keywords;
+            this.Position = adProvider.Position;
         }
 
     }

@@ -71,6 +71,18 @@ namespace AdRotator
             }
         }
 
+        public static Position Position
+        {
+            get
+            {
+                return AdRotatorComponent.Position;
+            }
+            set
+            {
+                AdRotatorComponent.Position = value;
+            }
+        }
+
         private AdType _currentAdType;
 
         public AdRotatorControl()

@@ -21,8 +21,10 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.SecondaryId,"AdUnitId"},
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
+                                                        {AdProviderConfigOptions.Latitude,"Latitude"},
+                                                        {AdProviderConfigOptions.Longitude,"Longitude"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"AdRefreshed"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"},
+                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"}
                                                     }
                                             }
                             },
@@ -36,8 +38,10 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.SecondaryId,"AdUnitId"},
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
+                                                        {AdProviderConfigOptions.Latitude,"Latitude"},
+                                                        {AdProviderConfigOptions.Longitude,"Longitude"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"AdRefreshed"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"},
+                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"}
                                                    }
                                             }
                             },

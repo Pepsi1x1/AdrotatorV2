@@ -29,7 +29,11 @@ namespace AdRotator.AdProviderConfig
             AdClickedEvent,
             UserGender,
             UserAge,
-            Keywords
+            Keywords,
+            Latitude,
+            Longitude,
+            GPS,
+            LocationUseOk,
         }
 
         internal enum SupportedPlatforms

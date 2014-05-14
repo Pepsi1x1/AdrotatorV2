@@ -71,5 +71,10 @@ namespace AdRotator.Model
             get;
             set;
         }
+
+        Position Position
+        {
+            get; set;
+        }
     }
 }

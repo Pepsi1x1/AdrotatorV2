@@ -28,7 +28,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
                                                         {AdProviderConfigOptions.UserGender,"Gender"},
                                                         {AdProviderConfigOptions.UserAge,"Age"},
-                                                        {AdProviderConfigOptions.Keywords,"Kws"}
+                                                        {AdProviderConfigOptions.Keywords,"Kws"},
+                                                        {AdProviderConfigOptions.GPS,"GPS"},
+                                                        {AdProviderConfigOptions.LocationUseOk,"LocationUseOk"},
                                                     }
                                             }
                             },
@@ -46,7 +48,9 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.ShowErrors,"ShowErrors"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"NewAdAvailable"},
                                                         {AdProviderConfigOptions.AdFailedEvent,"AdError"},
-                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"}
+                                                        {AdProviderConfigOptions.AdClickedEvent,"AdClick"},
+                                                        {AdProviderConfigOptions.GPS,"GPS"},
+                                                        {AdProviderConfigOptions.LocationUseOk,"LocationUseOk"},
                                                     }
                                             }
                             },

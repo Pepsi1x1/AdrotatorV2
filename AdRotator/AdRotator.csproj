@@ -30,7 +30,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;WINDOWS_PHONE;</DefineConstants>
+    <DefineConstants>TRACE;WINDOWS_PHONE;WINPHONE7</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -58,6 +58,7 @@
     <Compile Include="Model\AdSettingsBase.cs" />
     <Compile Include="Model\AdSlideDirection.cs" />
     <Compile Include="Model\AdType.cs" />
+    <Compile Include="Model\Position.cs" />
     <Compile Include="Networking\AdWebRequest.cs" />
     <Compile Include="Networking\AdWebResponse.cs" />
     <Compile Include="Networking\NetworkExtensions.cs" />

@@ -116,6 +116,11 @@ namespace AdRotator
             set { _userAge = value; }
         }
 
+        public static Position Position
+        {
+            get; set;
+        }
+
         /// <summary>
         /// RefreshInterval in seconds
         /// Control the minimum value so that AdProviders are not abused, or set to 0 to disable auto refresh (just the live provider will be used)
@@ -296,6 +301,26 @@ namespace AdRotator
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords) && !string.IsNullOrWhiteSpace(adProvider.Keywords))
                 {
                     reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Keywords], adProvider.Keywords.ToString());
+                }
+
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Latitude) && adProvider.Position != null)
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Latitude], adProvider.Position.Latitude.ToString());
+                }
+
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Longitude) && adProvider.Position != null)
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Longitude], adProvider.Position.Longitude.ToString());
+                }
+
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.GPS) && adProvider.Position != null)
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.Latitude], adProvider.Position.Latitude.ToString() + "," + adProvider.Position.Longitude.ToString());
+                }
+
+                if (adProvider.AdProviderType == AdType.Smaato)
+                {
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.LocationUseOk], false.ToString());
                 }
 
             }
