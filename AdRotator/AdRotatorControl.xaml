@@ -9,7 +9,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
 
-    <Grid x:Name="AdRotatorRoot" Background="{StaticResource PhoneChromeBrush}">
-
+    <Grid  Background="Transparent">
+        <Viewbox x:Name="AdRotatorRoot" Stretch="Uniform" StretchDirection="Both"></Viewbox>
     </Grid>
 </UserControl>

@@ -25,32 +25,64 @@ namespace AdRotator
 
         private AdRotatorComponent adRotatorControl;
 #if WINPHONE7
-        AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone7;
+        const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone7;
 #else
-        AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
+        const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
 #endif
 
         public string UserGender
         {
-            get { return adRotatorControl.UserGender; }
-            set { adRotatorControl.UserGender = value; }
+            get
+            {
+                if (adRotatorControl == null)
+                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+
+                return adRotatorControl.UserGender;
+            }
+            set
+            {
+                if (adRotatorControl == null)
+                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+
+                if(IsInDesignMode)
+                    return;
+
+                adRotatorControl.UserGender = value;
+            }
         }
 
-        public int? UserAge
+        public int UserAge
         {
-            get { return adRotatorControl.UserAge; }
-            set { adRotatorControl.UserAge = value; }
+            get {
+                if (adRotatorControl == null)
+                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+
+                return adRotatorControl.UserAge;
+            }
+            set
+            {
+                if (IsInDesignMode)
+                    return;
+
+                if (adRotatorControl == null)
+                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+                
+                adRotatorControl.UserAge = value;
+            }
         }
+
+        private AdType _currentAdType;
 
         public AdRotatorControl()
         {
             InitializeComponent();
-            adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+            if(adRotatorControl == null)
+                adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
             Loaded += AdRotatorControl_Loaded;
 
             // List of AdProviders supportd on this platform
-            AdRotatorComponent.PlatformSupportedAdProviders = new List<AdType>()
-                { 
+            AdRotatorComponent.PlatformSupportedAdProviders = new List<AdType>
+            { 
                     AdType.AdDuplex, 
                     AdType.PubCenter, 
                     AdType.Smaato,
@@ -58,9 +90,8 @@ namespace AdRotator
                     AdType.MobFox,
                     AdType.AdMob,
                     AdType.InnerActive
-                };
-            adRotatorControl.Log += (s) => { OnLog(s); };
-            
+            };
+            adRotatorControl.Log += OnLog;
         }
 
         void adRotatorControl_AdAvailable(AdProvider adProvider)
@@ -75,7 +106,7 @@ namespace AdRotator
 
             if (IsInDesignMode)
             {
-                AdRotatorRoot.Children.Add(new TextBlock() { Text = "AdRotator in design mode, No ads will be displayed", VerticalAlignment = System.Windows.VerticalAlignment.Center });
+                AdRotatorRoot.Child = new TextBlock() { Text = "AdRotator in design mode, No ads will be displayed", VerticalAlignment = System.Windows.VerticalAlignment.Center };
             }
             else
             {
@@ -101,9 +132,15 @@ namespace AdRotator
                 adRotatorControl.GetAd(null);
                 return "No Provider set";
             }
+
             if (adProvider.AdProviderType == AdType.None)
             {
                 return adRotatorControl.AdsFailed();
+            }
+
+            if (adProvider.AdProviderType == _currentAdType && adProvider.AdProviderType != AdType.PubCenter)
+            {
+                return "Ad Already Displayed";
             }
 
             //(SJ) should we make this call the GetAd function? or keep it seperate
@@ -118,15 +155,18 @@ namespace AdRotator
                 adRotatorControl.AdFailed(adProvider.AdProviderType);
                 return "Ad Failed to initialise";
             }
+
             if (providerElement == null)
             {
                 adRotatorControl.AdFailed(adProvider.AdProviderType);
                 return "No Ad Returned";
             }
+
+            _currentAdType = adProvider.AdProviderType;
+            
             Dispatcher.BeginInvoke(() =>
                 {
-                    AdRotatorRoot.Children.Clear();
-                    AdRotatorRoot.Children.Add((FrameworkElement)providerElement);
+                    AdRotatorRoot.Child = ((FrameworkElement)providerElement);
                     OnLog(string.Format("Displaying ads for {0}", adProvider.AdProviderType));
                 });
             return adProvider.AdProviderType.ToString();
@@ -398,7 +438,7 @@ namespace AdRotator
         public int AdRefreshInterval
         {
             get { return (int)adRotatorControl.adRotatorRefreshInterval; }
-            set { SetValue(AutoStartAdsProperty, value); }
+            set { SetValue(AdRefreshIntervalProperty, value); }
         }
 
         /// <summary>

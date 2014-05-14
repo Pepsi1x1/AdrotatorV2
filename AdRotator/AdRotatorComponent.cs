@@ -108,9 +108,12 @@ namespace AdRotator
             get; set;
         }
 
-        public int? UserAge
+        private int _userAge = -1;
+
+        public int UserAge
         {
-            get; set;
+            get { return _userAge; }
+            set { _userAge = value; }
         }
 
         /// <summary>
@@ -214,6 +217,25 @@ namespace AdRotator
 
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.IsTest))
                 {
+                    if (adProvider.IsTest)
+                    {
+                        if (adProvider.AdProviderType == AdType.PubCenter)
+                        {
+                            reflectionHelper.TrySetProperty(instance,
+                                provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AppId],
+                                "test_client");
+                            reflectionHelper.TrySetProperty(instance,
+                                provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.SecondaryId],
+                                "TextAd");
+                        }
+                        if (adProvider.AdProviderType == AdType.Smaato)
+                        {
+                            reflectionHelper.TrySetProperty(instance,
+                                provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.AppId], "0");
+                            reflectionHelper.TrySetProperty(instance,
+                                provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.SecondaryId], "0");
+                        }
+                    }
                     reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.IsTest], adProvider.IsTest.ToString());
                 }
 
@@ -266,9 +288,9 @@ namespace AdRotator
                         reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserGender], UserGender.ToString());
                 }
 
-                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge) && UserAge != null)
+                if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.UserAge) && UserAge > 0)
                 {
-                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], UserAge.Value.ToString());
+                    reflectionHelper.TrySetProperty(instance, provider.ConfigurationOptions[AdProviderConfig.AdProviderConfigOptions.UserAge], UserAge.ToString());
                 }
 
                 if (provider.ConfigurationOptions.ContainsKey(AdProviderConfig.AdProviderConfigOptions.Keywords) && !string.IsNullOrWhiteSpace(adProvider.Keywords))

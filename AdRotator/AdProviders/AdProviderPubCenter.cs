@@ -22,7 +22,7 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"AdRefreshed"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"}
+                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"},
                                                     }
                                             }
                             },
@@ -37,7 +37,7 @@ namespace AdRotator.AdProviders
                                                         {AdProviderConfigOptions.AdWidth,"Width"},
                                                         {AdProviderConfigOptions.AdHeight,"Height"},
                                                         {AdProviderConfigOptions.AdSuccessEvent,"AdRefreshed"},
-                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"}
+                                                        {AdProviderConfigOptions.AdFailedEvent,"ErrorOccurred"},
                                                    }
                                             }
                             },
