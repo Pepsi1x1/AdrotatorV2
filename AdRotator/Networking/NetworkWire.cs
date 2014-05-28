@@ -78,7 +78,8 @@ namespace AdRotator.Networking
         {
             try
             {
-                var httpResponse = await HttpWebRequest.Create(uri).GetResponseAsync();
+                var request = WebRequest.Create(uri);
+                var httpResponse = await request.GetResponseAsync();
                 using (StreamReader streamReader1 =
                          new StreamReader(httpResponse.GetResponseStream()))
                 {

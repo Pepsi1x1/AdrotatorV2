@@ -8,11 +8,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:AdRotatorControl">
-                    <Grid x:Name="AdRotatorRoot" Width="{TemplateBinding AdWidth}" Height="{TemplateBinding AdHeight}">
-                        <Grid.RenderTransform>
+                    <Viewbox x:Name="AdRotatorRoot" Stretch="Uniform" StretchDirection="Both" MaxWidth="{TemplateBinding AdWidth}" MaxHeight="{TemplateBinding AdHeight}"  Width="{TemplateBinding AdWidth}" Height="{TemplateBinding AdHeight}">
+                        <Viewbox.RenderTransform>
                             <CompositeTransform/>
-                        </Grid.RenderTransform>
-                    </Grid>
+                        </Viewbox.RenderTransform>
+                    </Viewbox>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

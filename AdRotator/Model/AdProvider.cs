@@ -242,7 +242,7 @@ namespace AdRotator.Model
         }
 
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
+        [System.Xml.Serialization.XmlElement]
         public Position Position
         {
             get

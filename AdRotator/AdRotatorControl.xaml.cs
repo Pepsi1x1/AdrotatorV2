@@ -30,44 +30,26 @@ namespace AdRotator
         const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
 #endif
 
-        public string UserGender
+        public static string UserGender
         {
             get
             {
-                if (adRotatorControl == null)
-                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
-
-                return adRotatorControl.UserGender;
+                return AdRotatorComponent.UserGender;
             }
             set
             {
-                if (adRotatorControl == null)
-                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
-
-                if(IsInDesignMode)
-                    return;
-
-                adRotatorControl.UserGender = value;
+                AdRotatorComponent.UserGender = value;
             }
         }
 
-        public int UserAge
+        public static int UserAge
         {
             get {
-                if (adRotatorControl == null)
-                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
-
-                return adRotatorControl.UserAge;
+                return AdRotatorComponent.UserAge;
             }
             set
             {
-                if (IsInDesignMode)
-                    return;
-
-                if (adRotatorControl == null)
-                    adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
-                
-                adRotatorControl.UserAge = value;
+                AdRotatorComponent.UserAge = value;
             }
         }
 

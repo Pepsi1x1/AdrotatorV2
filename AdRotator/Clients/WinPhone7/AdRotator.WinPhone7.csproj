@@ -76,6 +76,7 @@
     <OutputPath>Bin\ARM\Release</OutputPath>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
+    <DefineConstants>WINDOWS_PHONE;SILVERLIGHT;</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="..\..\AdRotatorControl.xaml.cs">

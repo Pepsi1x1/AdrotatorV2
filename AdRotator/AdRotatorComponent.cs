@@ -103,14 +103,14 @@ namespace AdRotator
 
         internal static Dictionary<AdType,Type> PlatformAdProviderComponents { get; set; }
 
-        public string UserGender
+        public static string UserGender
         {
             get; set;
         }
 
-        private int _userAge = -1;
+        private static int _userAge = -1;
 
-        public int UserAge
+        public static int UserAge
         {
             get { return _userAge; }
             set { _userAge = value; }
