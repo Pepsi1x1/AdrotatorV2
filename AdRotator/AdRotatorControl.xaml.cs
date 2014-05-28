@@ -23,11 +23,11 @@ namespace AdRotator
         }
         #endregion
 
-        private AdRotatorComponent adRotatorControl;
+        private readonly AdRotatorComponent _adRotatorComponent;
 #if WINPHONE7
-        const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone7;
+        private const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone7;
 #else
-        const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
+        private const AdRotator.AdProviderConfig.SupportedPlatforms CurrentPlatform = AdRotator.AdProviderConfig.SupportedPlatforms.WindowsPhone8;
 #endif
 
         public static string UserGender
@@ -70,8 +70,8 @@ namespace AdRotator
         public AdRotatorControl()
         {
             InitializeComponent();
-            if(adRotatorControl == null)
-                adRotatorControl = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
+            if(_adRotatorComponent == null)
+                _adRotatorComponent = new AdRotatorComponent(Thread.CurrentThread.CurrentUICulture.ToString(), IsInDesignMode ? null : new FileHelpers());
             Loaded += AdRotatorControl_Loaded;
 
             // List of AdProviders supportd on this platform
@@ -85,7 +85,7 @@ namespace AdRotator
                     AdType.AdMob,
                     AdType.InnerActive
             };
-            adRotatorControl.Log += OnLog;
+            _adRotatorComponent.Log += OnLog;
         }
 
         void adRotatorControl_AdAvailable(AdProvider adProvider)
@@ -104,18 +104,18 @@ namespace AdRotator
             }
             else
             {
-                adRotatorControl.AdAvailable += adRotatorControl_AdAvailable;
+                _adRotatorComponent.AdAvailable += adRotatorControl_AdAvailable;
                 if (AutoStartAds)
                 {
-                    adRotatorControl.GetConfig();
-                    if (!adRotatorControl.adRotatorRefreshIntervalSet)
+                    _adRotatorComponent.GetConfig();
+                    if (!_adRotatorComponent.adRotatorRefreshIntervalSet)
                     {
-                        adRotatorControl.StartAdTimer();
+                        _adRotatorComponent.StartAdTimer();
                     }
                 }
             }
 
-            adRotatorControl.isLoaded = true;
+            _adRotatorComponent.isLoaded = true;
 
         }
 
@@ -123,13 +123,13 @@ namespace AdRotator
         {
             if (adProvider == null)
             {
-                adRotatorControl.GetAd(null);
+                _adRotatorComponent.GetAd(null);
                 return "No Provider set";
             }
 
             if (adProvider.AdProviderType == AdType.None)
             {
-                return adRotatorControl.AdsFailed();
+                return _adRotatorComponent.AdsFailed();
             }
 
             if (adProvider.AdProviderType == _currentAdType && adProvider.AdProviderType != AdType.PubCenter)
@@ -142,17 +142,17 @@ namespace AdRotator
             object providerElement = null;
             try
             {
-                providerElement = adRotatorControl.GetProviderFrameworkElement(CurrentPlatform, adProvider);
+                providerElement = _adRotatorComponent.GetProviderFrameworkElement(CurrentPlatform, adProvider);
             }
             catch
             {
-                adRotatorControl.AdFailed(adProvider.AdProviderType);
+                _adRotatorComponent.AdFailed(adProvider.AdProviderType);
                 return "Ad Failed to initialise";
             }
 
             if (providerElement == null)
             {
-                adRotatorControl.AdFailed(adProvider.AdProviderType);
+                _adRotatorComponent.AdFailed(adProvider.AdProviderType);
                 return "No Ad Returned";
             }
 
@@ -175,7 +175,7 @@ namespace AdRotator
         /// /// </summary>
         public int AdWidth
         {
-            get { return (int)adRotatorControl.AdWidth; }
+            get { return (int)_adRotatorComponent.AdWidth; }
             set { SetValue(AdWidthProperty, value); }
         }
 
@@ -192,7 +192,7 @@ namespace AdRotator
 
         private void AdWidthChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.AdWidth = (int)e.NewValue;
+            _adRotatorComponent.AdWidth = (int)e.NewValue;
         }
 
         #endregion
@@ -204,7 +204,7 @@ namespace AdRotator
         /// </summary>
         public int AdHeight
         {
-            get { return (int)adRotatorControl.AdHeight; }
+            get { return (int)_adRotatorComponent.AdHeight; }
             set { SetValue(AdHeightProperty, value); }
         }
 
@@ -221,7 +221,7 @@ namespace AdRotator
 
         private void AdHeightChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.AdHeight = (int)e.NewValue;
+            _adRotatorComponent.AdHeight = (int)e.NewValue;
         }
 
         #endregion
@@ -250,7 +250,7 @@ namespace AdRotator
 
         private void IsTestChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.isTest = (bool)e.NewValue;
+            _adRotatorComponent.isTest = (bool)e.NewValue;
         }
 
         #endregion
@@ -268,7 +268,7 @@ namespace AdRotator
         #region RemoteSettingsLocation
         public string RemoteSettingsLocation
         {
-            get { return (string)adRotatorControl.RemoteSettingsLocation; }
+            get { return (string)_adRotatorComponent.RemoteSettingsLocation; }
             set { SetValue(RemoteSettingsLocationProperty, value); }
         }
 
@@ -286,7 +286,7 @@ namespace AdRotator
         }
         private void OnRemoteSettingsLocationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.RemoteSettingsLocation = (string)e.NewValue;
+            _adRotatorComponent.RemoteSettingsLocation = (string)e.NewValue;
         }
     #endregion
 
@@ -294,7 +294,7 @@ namespace AdRotator
 
         public string LocalSettingsLocation
         {
-            get { return (string)adRotatorControl.LocalSettingsLocation; }
+            get { return (string)_adRotatorComponent.LocalSettingsLocation; }
             set { SetValue(LocalSettingsLocationProperty, value); }
         }
 
@@ -313,14 +313,14 @@ namespace AdRotator
 
         private void OnLocalSettingsLocationPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.LocalSettingsLocation = (string)e.NewValue;
+            _adRotatorComponent.LocalSettingsLocation = (string)e.NewValue;
         }
     #endregion
 
         #region IsAdRotatorEnabled
         public bool IsAdRotatorEnabled
         {
-            get { return (bool)adRotatorControl.IsAdRotatorEnabled; }
+            get { return (bool)_adRotatorComponent.IsAdRotatorEnabled; }
             set { SetValue(IsAdRotatorEnabledProperty, value); }
         }
 
@@ -339,14 +339,14 @@ namespace AdRotator
 
         private void OnIsAdRotatorEnabledPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.IsAdRotatorEnabled = (bool)e.NewValue;
+            _adRotatorComponent.IsAdRotatorEnabled = (bool)e.NewValue;
         }
     #endregion
 
         #region DefaultHouseAdBody
         public string DefaultHouseAdBody
         {
-            get { return (string)adRotatorControl.DefaultHouseAdBody; }
+            get { return (string)_adRotatorComponent.DefaultHouseAdBody; }
             set { SetValue(DefaultHouseAdBodyProperty, value); }
         }
 
@@ -365,7 +365,7 @@ namespace AdRotator
 
         private void OnDefaultHouseAdBodyPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.DefaultHouseAdBody = e.NewValue;
+            _adRotatorComponent.DefaultHouseAdBody = e.NewValue;
         }
 
     #endregion
@@ -375,7 +375,7 @@ namespace AdRotator
         {
             get
             {
-                return adRotatorControl.isLoaded;
+                return _adRotatorComponent.isLoaded;
             }
         }
         #endregion
@@ -385,7 +385,7 @@ namespace AdRotator
         {
             get
             {
-                return adRotatorControl.isInitialised;
+                return _adRotatorComponent.isInitialised;
             }
         }
         #endregion
@@ -403,7 +403,7 @@ namespace AdRotator
         #region AutoStartAds
         public bool AutoStartAds
         {
-            get { return (bool)adRotatorControl.autoStartAds; }
+            get { return (bool)_adRotatorComponent.autoStartAds; }
             set { SetValue(AutoStartAdsProperty, value); }
         }
 
@@ -421,7 +421,7 @@ namespace AdRotator
 
         private void OnAutoStartAdsPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.autoStartAds = (bool)e.NewValue;
+            _adRotatorComponent.autoStartAds = (bool)e.NewValue;
         }
         #endregion
 
@@ -431,7 +431,7 @@ namespace AdRotator
         /// </summary>
         public int AdRefreshInterval
         {
-            get { return (int)adRotatorControl.adRotatorRefreshInterval; }
+            get { return (int)_adRotatorComponent.adRotatorRefreshInterval; }
             set { SetValue(AdRefreshIntervalProperty, value); }
         }
 
@@ -453,9 +453,9 @@ namespace AdRotator
 
         private void OnAdRefreshIntervalPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            adRotatorControl.adRotatorRefreshInterval = (int)e.NewValue;
-            adRotatorControl.adRotatorRefreshIntervalSet = true;
-            adRotatorControl.StartAdTimer();
+            _adRotatorComponent.adRotatorRefreshInterval = (int)e.NewValue;
+            _adRotatorComponent.adRotatorRefreshIntervalSet = true;
+            _adRotatorComponent.StartAdTimer();
         }
         #endregion
 
